@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid" ref="usersCont">
     <!--page header start -->
     <div class="page-header">
       <div class="row align-items-end">
@@ -83,38 +83,77 @@
       </div>
     </div>
     <add-user v-bind:source="2" v-bind:role="roles"/>
+    <b-pagination
+            v-model="page"
+            :total-rows="count"
+            :per-page="pageSize"
+            prev-text="Prev"
+            next-text="Next"
+            @change="handlePageChange"
+        ></b-pagination>
   </div>
 </template>
 <script>
 import AddUser from "@/views/utilisateurs/AddUser.vue";
+
 export default {
     name:"ListUsers",
     data:()=>({
         users:[],
         mairie:"",
-        roles:[]
+        roles:[],
+        page:1,
+        count:0,
+        pageSize:10,
+        totalItems:0,
+        loader: "dots"
     }),
     components:{
-      AddUser
+      AddUser,
     },
     methods:{
-        async getMairiesUsers(){
-            let access_token=storage.get("access_token")
-        try {
-          this.mairie = await axios.get("utilisateurs/"+access_token).then(response => response.result.mairie);
-        } catch (error) {notif.error(error.message);return;}
-        const url="/mairies/"+this.mairie.idMairie+"/utilisateurs";
-          this.users = await axios.get(url).then(response => response.result);
-          console.log("result2",this.users)
-          let r=(await axios.get("/constantes/roles").then(response =>response.result)).map(elt =>{
-              if(elt.libelle =="maire"){
-                this.roles.push(elt.idRole)
-              }
-          });
-        },
+        getRequestParams(page, pageSize){
+        let params={};
+        if(page){
+          params["page"]= page -1
+        }
+        if(pageSize){
+          params["size"]=pageSize
+        }
+        return params;
+      },
+       handlePageChange(value){
+          this.page=value;
+          this.retrieveUsers();
+      },
+          async retrieveUsers(){
+         
+
+        let mairie=storage.get("mairie");this.mairie=mairie;
+            let role=storage.get("roles")
+            const url="/mairies/"+mairie.idMairie+"/utilisateurs"
+            this.roles.push(role.idRole)
+          const params=this.getRequestParams(
+            this.page,
+            this.pageSize
+          );
+
+        let response = await  axios.get(url,{ params })
+        
+          console.log(response)
+          const { users, totalItems } = response.result;
+          this.totalItems=response.result.totalItems;
+          this.users = response.result.data;
+          this.count=response.result.totalItems;
+         
+      
     },
+    
+    },
+    async beforeMount() {
+      this.retrieveUsers();
+  },
     async mounted() {
-       await this.getMairiesUsers();
        this.$root.$on('new-mairie-user-added', (newUserMairie) => {
             this.users.unshift(newUserMairie)
      }) 

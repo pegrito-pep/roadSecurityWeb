@@ -315,6 +315,7 @@ export default {
   mixins: [ValidationHelper],
   data() {
     return {
+      commandeAudio:false,
       sameUsers:false,
       existingUser:false,
       loaded: false,
@@ -429,8 +430,9 @@ export default {
             const file=e.target.files[0];
             this.url=URL.createObjectURL(file)
     },
-    onComplete() {
-      
+    async onComplete() {
+            var myTrack1=new Audio('/assets/sons/add-taximan-succes.mp3')
+            var myTrack2=new Audio('/assets/sons/Erreur Survenue.mp3')
             let infosVehichules={
               immatriculation:this.formData.immatriculation,
               carteGrise:this.formData.numCarteGrise,
@@ -448,59 +450,47 @@ export default {
               imgCni:this.formData.photoCniProprietaire,
               vehicules:this.vehicules
             };
-      //console.log("infosProprio",infosProprio)
-      let infosTaximan={
-        cni:this.formData.numCniTaximan,
-        nom:this.formData.nameTaximan,
-        prenom:this.formData.surnameTaximan,
-        tel:this.formData.telTaximan,
-        permis:this.formData.numpermisTaximan,
-        imgPermis:this.formData.photoPermisTaximan,
-        imgCni:this.formData.photoCniTaximan,
-        idVehicule:1
-      }
-      console.log("infosTaximan1",infosTaximan)
-              if (this.sendSstep == 1) {
-                axios.post('proprietaires', infosProprio).then(response => {
-                    console.log(response)
-                    this.sendSstep = 2
-                    //this.submitted = false
-                }).catch(error => {
-                    this.submitted = false
-                    App.notifyError(error.message)
-                })
-            }
-            if (this.sendSstep == 2) {
-              console.log("infosTaximan2",infosTaximan)
-                axios.post('taximens', infosTaximan).then(response => {
-                    console.log("taximan ajoutée",response.reslut)
-                }).catch(error => {
-                    this.submitted = false
-                    App.notifyError(error.message)
-                })
-            }
-      // this.vehicules.push( vehicule );
-      // let data={ 
-      //   "cni":this.formData.cni,
-      //   "nom":this.formData.name,
-      //   "prenom":this.formData.surname,
-      //   "tel":this.formData.tel,
-      //   "permis":this.formData.permis,
-      //   "vehicules":this.vehicules
-      // }
-      // axios.post("proprietaires",data).then(response =>{
-            
-
-      //       this.vehicules=null;
-      //       this.formData.cni=null; this.formData.name=null; this.formData.surname=null;
-      //       this.formData.tel=null; this.formData.permis=null; this.formData.immatriculation=null;
-      //       this.formData.carteGrise=null; this.formData.marque=null; this.formData.terms=false;
-      //       notif.success(response.message);
-      //       this.paidFor=false;
-      //       this.showButton=false;
-      //       this.$router.push({name: 'ListTaximans'});
-      // })
-      // .catch(error => {notif.error(error.message);});
+    
+            console.log("infosProprio",infosProprio)
+              let vehicule;
+               let taximan;
+              try{
+                 vehicule = await axios.post("proprietaires", infosProprio)
+                 .then(response => response.result.vehicules);
+              }catch(e){
+                  notif.error(error.message);
+                  return;
+              }
+                console.log("vehicule",vehicule)
+              let infosTaximan={
+                cni:this.formData.numCniTaximan,
+                nom:this.formData.nameTaximan,
+                prenom:this.formData.surnameTaximan,
+                tel:this.formData.telTaximan,
+                permis:this.formData.numpermisTaximan,
+                imgPermis:this.formData.photoPermisTaximan,
+                imgCni:this.formData.photoCniTaximan,
+                idVehicule:vehicule.idVehicule
+              }
+              try {
+                  taximan = await axios
+                  .post("taximens", infosTaximan)
+                  .then(response => response.result);
+                  this.commandeAudio=true;
+                  } catch (error) {
+                    notif.error(error.message);
+                    return;
+                  }
+                this.paidFor=false;
+                this.showButton=false;
+                if(this.commandeAudio){
+                    myTrack1.play();
+                }
+                if(!this.commandeAudio){
+                    myTrack2.play();
+                }
+                this.$router.push({name: 'ListTaximans'});
+  
       
     },
     setLoaded: function() {
