@@ -55,8 +55,35 @@
               <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top"></div>
               <div class="card" style="width: 19%;position: relative;left: 30%; top: -104px;">
                 <div class="user-details text-align-center">
-                  <div>
-                    <img src="/img/Smairies/bafoussam.png" />
+                  <div v-if="superMairieNom =='bafoussam'">
+                    <img  src="/img/Smairies/bafoussam.png" />
+                  </div>
+                  <div v-if="superMairieNom =='Douala'">
+                    <img  src="/img/Smairies/douala.png" />
+                  </div>
+                  <div v-if="superMairieNom =='yaounde'">
+                    <img  src="/img/Smairies/Yaounde.png" />
+                  </div>
+                  <div v-if="superMairieNom =='bertoua'">
+                    <img  src="/img/Smairies/bertoua.png" />
+                  </div>
+                  <div v-if="superMairieNom =='garoua'">
+                    <img  src="/img/Smairies/garoua.jpg" />
+                  </div>
+                  <div v-if="superMairieNom =='ngaoundere'">
+                    <img  src="/img/Smairies/ngaoundere.png" />
+                  </div>
+                  <div v-if="superMairieNom =='maroua'">
+                    <img  src="/img/Smairies/maroua.png" />
+                  </div>
+                  <div v-if="superMairieNom =='ebolowa'">
+                    <img  src="/img/Smairies/ebolowa.png" />
+                  </div>
+                  <div v-if="superMairieNom =='bamenda'">
+                    <img  src="/img/Smairies/bamenda.png" />
+                  </div>
+                  <div v-if="superMairieNom =='buea'">
+                    <img  src="/img/Smairies/buea.png" />
                   </div>
                 </div>
               </div>
@@ -77,25 +104,40 @@
           </div>
         </div>
         <div class="separator mb-20"></div>
-        <div class="row layout-wrap" id="layout-wrap" style="width:99%">
+        <div class="row layout-wrap d-flex" id="layout-wrap" style="width:90%">
           <div
-            class="card sos-st-card facebook resize"
+            style="width:90%"
+            class="sos-st-card facebook cont" 
             v-for="mairie in mairies"
             :key="mairie.idMairie"
           >
-            <div class="card-block">
-              <div class="row align-items-center">
-                <div class="col">
+            <div class="card card-block">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="mb-0">
+                      <b-img src="/img/iconeMairie.png"></b-img>
+                      code:{{ mairie.code }}<br>
+                      <span class="pl-3">{{ mairie.nom }}</span>
+                    </h3>
+                  </div>
+                  <div class="col-auto">
+                    <h5 class="mb-0"></h5>
+                  </div>
+                        
+                </div>
+            </div>
+            <!--<div class="card right">
+                <div>
                   <h3 class="mb-0">
-                    <b-img src="/img/iconeMairie.png"></b-img>
-                    {{ mairie.nom }}
+                    <b-img :src="mairie.maire.avatar"></b-img>
+                      <span>{{ mairie.maire.nom }}</span>
                   </h3>
                 </div>
                 <div class="col-auto">
-                  <h5 class="mb-0"></h5>
+                  <p>Tél: <span>{{ mairie.maire.tel }}</span></p>
+                  <p>Matricule: <span>{{ mairie.maire.matricule }}</span></p>
                 </div>
-              </div>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
@@ -134,17 +176,13 @@ export default {
     },
     async getSuperMairieData() {
       this.superMairieNom=storage.get("superMairie").nom
-      // let access_token = storage.get("access_token");
-      // this.superMairie = await axios
-      //   .get("/utilisateurs/" + access_token)
-      //   .then(response => response.result.data[0].superMairie);
-      // console.log("superMairie", this.superMairie);
     }
   },
   async mounted() {
     await this.getSuperMairieData();
     await this.getMairiesOfSuperMairie();
     this.$root.$on("new-mairie-added", newMairie => {
+      console.log("mairie ajoutée",newMairie)
       this.mairies.unshift(newMairie);
     });
   }
@@ -159,6 +197,14 @@ export default {
 }
 .user-details {
   padding: 1em;
+}
+.cont{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.right{
+  width:38%;  
 }
 
 </style>

@@ -114,7 +114,7 @@ export default {
         },
     },
     async mounted() {
-       this.getMairiesUsers();
+       await this.getMairiesUsers();
        this.$root.$on('new-mairie-user-added', (newUserMairie) => {
             this.users.unshift(newUserMairie)
      }) 

@@ -7,7 +7,7 @@
           <div class="page-header-title">
             <i class="ik ik-file-text bg-blue"></i>
             <div class="d-inline">
-              <h5>Mairie de la ville de Douala</h5>
+              <h5>Communauté Urbaine de la ville de Douala</h5>
               <span>Liste des utilisateurs</span>
             </div>
           </div>
@@ -106,13 +106,6 @@ export default {
               this.users = res.result.data;
               console.log("result",this.users)
             }).catch(error =>{console.log(error.message);})
-    
-          // const url="/supers-mairies/"+idSuperMairie+"/utilisateurs";
-          // this.users = await axios.get(url).then(response => response.result.data);
-          // console.log("result",this.users)
-          
-        
-        
         },
     },
      mounted() {

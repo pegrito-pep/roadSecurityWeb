@@ -3,7 +3,7 @@
         <div class="sidebar-header">
             <a class="header-brand" href="index.html">
                 <div class="logo-img mr-2">
-                    <img src="/img/logoSOS.jpg" class="header-brand-img" alt="lavalite" style="height: 1.5em; width: 1.5em"> 
+                    <img src="/img/logoNav.png" class="header-brand-img" alt="lavalite" style="height: 1.5em; width: 1.5em"> 
                 </div>
                 <span class="text">BlackList</span>
             </a>

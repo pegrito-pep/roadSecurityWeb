@@ -140,8 +140,8 @@ export default {
          this.leRole.push(storage.get("roles").idRole)
       }
     },
-    mounted(){
-      this.getUserInfos();
+    async mounted(){
+      await this.getUserInfos();
     }
   }
 
