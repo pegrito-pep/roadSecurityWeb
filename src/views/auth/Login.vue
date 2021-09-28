@@ -4,7 +4,37 @@
             <b-row class="flex-row h-100 bg-white">
                 <div class="col-xl-8 col-lg-6 col-md-5 p-0 d-md-block d-lg-block d-sm-none d-none">
                     <div class="lavalite-bg" style="background-image: url('/img/imageLoginPage.jpg')">
-                        <!-- <div class="lavalite-overlay"></div> -->
+                        <div class="lavalite-overlay"></div>
+                        <div class="disposition">
+                            <div class="align-middle inner">
+                                <vueper-slides :slide-ratio="1 / 4" autoplay :slide-content-outside="contentPosition">
+                                    <vueper-slide
+                                        v-for="(slide, i) in slides"
+                                        :key="i"
+                                        :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]">
+                                        <template #content>
+                                        <div class="vueperslide__content-wrapper" style="flex-direction: row">
+                                            <b-img :src="slide.src" fluid alt="Fluid image"></b-img>
+                                        </div>
+                                        </template>
+                                    </vueper-slide>
+                                </vueper-slides>
+                            </div>
+                        </div>
+                        <!--<div class="align-middle">
+                            <vueper-slides :slide-ratio="1 / 4" autoplay :slide-content-outside="contentPosition">
+                                <vueper-slide
+                                    v-for="(slide, i) in slides"
+                                    :key="i"
+                                    :style="'background-color: ' + ['#42b983', '#ff5252'][i % 2]">
+                                    <template #content>
+                                    <div class="vueperslide__content-wrapper" style="flex-direction: row">
+                                        <b-img :src="slide.src" fluid alt="Fluid image"></b-img>
+                                    </div>
+                                    </template>
+                                </vueper-slide>
+                            </vueper-slides>
+                        </div>-->
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
@@ -43,15 +73,44 @@
 </template>
 
 <script>
+import { VueperSlides, VueperSlide } from 'vueperslides'
+import 'vueperslides/dist/vueperslides.css'
+
 export default {
     name: 'Login',
+    components: { VueperSlides, VueperSlide },
     data: () => ({
         submitted: false,
         login: null, 
         mdp: null,
-        resultat:null
+        resultat:null,
+        slidesTimeTimerId: null,
+        slides: [
+            { src: 'http://localhost:8080/img/Smairies/bafoussam.png'},
+            { src: 'http://localhost:8080/img/Smairies/bertoua.png'},
+            { src: 'http://localhost:8080/img/Smairies/douala.jpg'},
+            { src: 'http://localhost:8080/img/Smairies/ebolowa.png'},
+            { src: 'http://localhost:8080/img/Smairies/ngaoundere.png'},
+            { src: 'http://localhost:8080/img/Smairies/Yaounde.png'},
+        ]
     }), 
     methods: {
+        toggleSlidesTime () {
+    if (this.slidesTimeTimerId) {
+      clearInterval(this.slidesTimeTimerId)
+      this.slidesTimeTimerId = 0
+    } else {
+      this.updateSlidesWithTime()
+      this.slidesTimeTimerId = setInterval(this.updateSlidesWithTime, 1000)
+    }
+  },
+  updateSlidesWithTime () {
+    this.slides.forEach(slide => {
+      let time = new Date()
+      slide.title = time.toLocaleTimeString()
+      slide.content = 'Time in 5 hours: ' + new Date(time.getTime() + 5 * 3600000).toLocaleTimeString()
+    })
+  },
         // sendForm() {
         //     this.submitted = true
         //     axios.post('signin', {tel: this.login, mdp: this.mdp}).then(response => {
@@ -101,3 +160,13 @@ export default {
     
 }
 </script>
+<style>
+   .disposition{
+        position: relative;
+        width: 100%;
+        height: 900px;
+   }
+   .inner{
+    padding-top:35%;
+   }
+</style>

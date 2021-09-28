@@ -415,6 +415,7 @@ export default {
       }
     },
     toggleStatus() {
+       this.loading = true
         this.showButton=true
         const script = document.createElement("script");
         script.src ="https://www.paypal.com/sdk/js?client-id=AWll2noucpUtJT86ULiJnfJoXRSTXMNOCdg64upWlQrGR5sizlQsVcoaKJANLeobax6zT3w0C4DgCgrX";

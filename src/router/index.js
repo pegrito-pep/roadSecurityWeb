@@ -7,8 +7,9 @@ import SuperMairie from '@/views/supermairies/SuperMairie.vue'
 import UtilisateursSuperMairie from '@/views/UtilisateursSuperMairie/ListUsers.vue'
 import UtilisateursMairie from '@/views/Utilisateurs-Mairies/ListUsers.vue'
  import ListMairies from '@/views/mairies/ListMairies.vue'
-import Notifications from '@/views/notifications/ListNotifications.vue'
-import ListTaximans from '@/views/taximans/ListTaximans.vue'
+import Notifications from '@/views/infractions/ListNotifications.vue'
+import TypesInfractions from '@/views/infractions/InfractionsSysteme.vue'
+import ListTaximans from '@/views/taximans/ListProprietaires.vue'
 import AddTaximan from '@/views/taximans/AddTaximan.vue'
 import i18n from '../i18n.js'
 
@@ -51,6 +52,11 @@ const routes = [{
       path: '/notifications',
       name: 'notifications',
       component: Notifications
+    },
+    {
+      path: '/types-infractions',
+      name: 'types-infractions',
+      component: TypesInfractions
     },
 
     {

@@ -59,7 +59,12 @@
                     </div>
                     <div v-if="role=='maire'" class="nav-item" @click="manageActiveClass()">
                         <router-link to="/infractions">
-                            <i class="fas fa-bell"></i><span>Gestion des infractions</span>
+                            <i class="fas fa-bell"></i><span>Infractions Système</span>
+                        </router-link>
+                    </div>
+                    <div v-if="role=='maire'" class="nav-item" @click="manageActiveClass()">
+                        <router-link to="/notifications">
+                            <i class="fas fa-bell"></i><span>Infractions des usagers</span>
                         </router-link>
                     </div>
                 <!--<nav id="main-menu-navigation" class="navigation-main">

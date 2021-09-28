@@ -91,40 +91,34 @@
     </div>
 </template>
 <script>
-import UsagerDetails from "@/views/taximans/TaximanDetail.vue";
+
 
 export default {
     name:"ListTaximans",
-    components: {
-        UsagerDetails
-       
-    },
+    props:["proprietaire"],
     data:()=>({
-        proprietaires:[],
-        user:null
+        taximans
     }),
 
     methods: {
         addUsager(){
           this.$router.push({name: 'add-usager'})
         },
-        getProprietaires(){
-            axios.get('/proprietaires').then(response => {
-                console.log("propriétaires",response.result)
-			    this.proprietaires = response.result	
+        getProprietaires(proprietaire){
+            const url="/proprietaires/"+proprietaire.idProprietaire+"/taximens"
+            axios.get(url).then(response => {
+                console.log("taximens proprio",response.result)
+			    this.taximans = response.result	
 	        })
         },
-        showDetails(user){
-            this.user=user
-            console.log("userData",user)
-        }
+
     },
-    mounted() {
-	  this.getProprietaires()
-	//   this.$root.$on('new-theme-added', () => {
-	// 	  this.getThemes()
-	//   })
-  }
+//     mounted() {
+// 	  this.getProprietaires()
+// 	//   this.$root.$on('new-theme-added', () => {
+// 	// 	  this.getThemes()
+// 	//   })
+//   }
     
 }
 </script>

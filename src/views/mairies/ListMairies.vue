@@ -126,18 +126,7 @@
                         
                 </div>
             </div>
-            <!--<div class="card right">
-                <div>
-                  <h3 class="mb-0">
-                    <b-img :src="mairie.maire.avatar"></b-img>
-                      <span>{{ mairie.maire.nom }}</span>
-                  </h3>
-                </div>
-                <div class="col-auto">
-                  <p>Tél: <span>{{ mairie.maire.tel }}</span></p>
-                  <p>Matricule: <span>{{ mairie.maire.matricule }}</span></p>
-                </div>
-            </div>-->
+
           </div>
         </div>
       </div>

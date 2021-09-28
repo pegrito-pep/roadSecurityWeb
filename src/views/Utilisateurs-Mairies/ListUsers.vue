@@ -59,7 +59,7 @@
         </div>
         <div class="separator mb-20"></div>
         <div class="row layout-wrap" id="layout-wrap" style="width:99%">
-            <table class="table table-bordered table-dark table-striped">
+          <table class="table table-bordered table-dark table-striped">
                 <thead>
                     <tr>
                         <th>Nom</th>
